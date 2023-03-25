@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DownloadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+
 
 /**
     * Show Task Dashboard
@@ -58,3 +60,7 @@ Route::delete('/task/{id}', function ($id) {
 
     return redirect('/');
 });
+
+Route::get('/test', [DownloadController::class,'index']);
+
+Route::get('/convert', [DownloadController::class,'convertToAudio']);
