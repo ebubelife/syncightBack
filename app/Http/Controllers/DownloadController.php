@@ -13,6 +13,43 @@ class DownloadController extends Controller
 
     public function index(){
 
+        $videoInfo = $this->getVideoInfo("Fe6HwCFuyng");
+
+        $videoInfo = json_decode($videoInfo);
+
+        $formats =  $videoInfo->streamingData->formats;
+
+        $format =  $formats[0];
+
+        echo json_encode($formats);
+
+        $firstVideoMimeType = explode(";",explode("/",$format->mimeType)[1])[0];
+
+        $data =
+        
+        ["title" => $videoInfo->videoDetails->title,
+
+         "formats"=> json_encode($formats),
+
+         "firstVideoMimeType"=> $firstVideoMimeType,
+
+         "url"=>$format->url,
+    
+    ];
+
+
+   $this->downloader($videoInfo->videoDetails->title, $firstVideoMimeType , $format->url );
+
+      //  $this-> convertToAudio();
+
+
+
+        return view('test_screen', $data); //view('youtube_download_form');
+    }
+
+
+    public function apiDownloader(){
+
         $videoInfo = $this->getVideoInfo("NiKtZgImdlY");
 
         $videoInfo = json_decode($videoInfo);
@@ -101,13 +138,17 @@ public function downloader($fileTitle, $fileType, $url){
 
 public function convertToAudio(){
 
-    $videoPath =  public_path('/assets/temp_videos/jksbjksdbvj.mp4');
-    FFMpeg::fromDisk('public')
-    ->open($videoPath)
-    ->export()
-    ->toDisk('public')
-    ->inFormat(new \FFMpeg\Format\Audio\Mp3)
-    ->save(public_path('/assets/temp_audios/converted_audio.mp3'));
+    
+
+    $videoPath = public_path('assets/temp_videos/jksbjksdbvj.mp4');
+
+    $ffmpeg = FFMpeg\FFMpeg::create();
+    $video = $ffmpeg->open($videoPath);
+
+    $format = new FFMpeg\Format\Audio\Mp3();
+
+    $audioPath = public_path('assets/temp_audios/audio.mp3');
+    $video->save($format, $audioPath);
 }
 
 
