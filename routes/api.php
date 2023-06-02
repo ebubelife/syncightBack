@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MembersController;
+use App\Http\Controllers\DownloadController;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +31,12 @@ Route::controller(MembersController::class)->group(function(){
    
    // Route::get('test_api','test_api');
 });
+
+Route::get('/grabber', [DownloadController::class,'index']);
+
+Route::get('/convert', [DownloadController::class,'index']);
+
+Route::get('test_api', [DownloadController::class,'test_rapid_api']);
+
+Route::post('generate_summary', [TaskController::class,'generateVideoSummary']);
 

@@ -52,7 +52,7 @@ class MembersController extends Controller
                 
                
                
-                'email' => 'required|string|email|unique:members,email|max:255',
+                'email' => 'required|string|email|max:255',
                 'password' => 'required|string|min:8',
               
             ],
@@ -89,12 +89,32 @@ class MembersController extends Controller
        
         
         
-        $this->checkEmailValid??$user->save();
+        $checkEmailValid = $this->checkEmailValid($user->email);
+        $checkEmailExists = $this->checkEmailExists($user->email);
+       // $checkPhoneExists = $this->checkPhoneExists($user->phone);
+
+        if($checkEmailValid && !$checkEmailExists ){
+
+        $user->save();
 
         // Generate a new API token for the user...
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json(['message'=>'success'],200);
+
+        }else if(!$checkEmailValid){
+
+            return response()->json(['message'=>'Please use a valid email'],405);
+
+
+        }
+
+        else if($checkEmailExists){
+
+            return response()->json(['message'=>'That email is in use already, please try another'],405);
+
+
+        }
 
           
         }
@@ -117,6 +137,38 @@ public function checkEmailValid($email){
       }
 }
 
+    //Check if email is already in use by another user
+
+    public function checkEmailExists($email)
+{
+  
+    $user = Members::where('email', $email)->first();
+
+    if ($user) {
+        return true;
+       // return response()->json(['exists' => true]);
+    } else {
+        return false;
+       // return response()->json(['exists' => false]);
+    }
+}
+
+ //Check if phone is already in use by another user
+
+ public function checkPhoneExists($email)
+ {
+   
+     $user = Members::where('phone', $email)->first();
+ 
+     if ($user) {
+         return true;
+        // return response()->json(['exists' => true]);
+     } else {
+         return false;
+        // return response()->json(['exists' => false]);
+     }
+ }
+
 public function login(Request $request){
 
     try{
@@ -128,10 +180,10 @@ public function login(Request $request){
     $user = Members::where('email', $request->email)->first();
 
     if (!$user ) {
-         return response()->json(['message'=>'That email doesn\'t exist.'],403);
+         return response()->json(['message'=>'That email doesn\'t exist in our records.'],403);
     }
     else if(!Hash::check($request->password, $user->password)){
-        return response()->json(['message'=>'That password is wrong.'],405);
+        return response()->json(['message'=>'That password is wrong and doesn\'t match the email.'],405);
 
     }
 

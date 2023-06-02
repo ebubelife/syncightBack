@@ -82,4 +82,65 @@ class TaskController extends Controller
     {
         //
     }
+
+    public function generateVideoSummary(Request $request){
+
+        try{
+
+
+            $validated = $request->validate([
+            'videoURL' => 'required|string',
+           
+        ]);
+
+        $video_url = "https://www.youtube.com/watch?v=FNkFXvHR1sA";
+
+
+
+        $curl = curl_init();
+        
+        curl_setopt_array($curl, [
+            CURLOPT_URL => "https://youtube-video-summarizer1.p.rapidapi.com/v1/youtube/summarizeVideoWithToken?videoURL=".$video_url ,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => [
+                "X-RapidAPI-Host: youtube-video-summarizer1.p.rapidapi.com",
+                "X-RapidAPI-Key:be766bc553msh745a5826541da61p1ab31bjsn6476950f3bd2" , 
+                "openai-api-key: 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"
+            ],
+        ]);
+        
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        
+        curl_close($curl);
+        
+        if ($err) {
+            return response()->json(['error'=>$err]);
+
+        } else {
+
+            $json_response = json_decode($response, true);
+            return response()->json(['videoSummary'=>$json_response]);
+
+        }
+
+        
+
+      
+    }
+
+    catch(\Exception $e){
+        return response()->json(['message'=>'An error occured, please try again'.$e, 'error'=>$e],405);
+
+
+    }
+
+    
+    }
+
 }

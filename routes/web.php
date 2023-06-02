@@ -64,3 +64,8 @@ Route::delete('/task/{id}', function ($id) {
 Route::get('/test', [DownloadController::class,'index']);
 
 Route::get('/convert', [DownloadController::class,'convertToAudio']);
+Route::get('/conv', [DownloadController::class,'convertVideo']);
+
+Route::get('/runpy', [DownloadController::class,'runPython']);
+
+

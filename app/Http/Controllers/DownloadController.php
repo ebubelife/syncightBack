@@ -13,15 +13,15 @@ class DownloadController extends Controller
 
     public function index(){
 
-        $videoInfo = $this->getVideoInfo("Fe6HwCFuyng");
+        $videoInfo = $this->getVideoInfo("H_bB0sAqLNg");
 
         $videoInfo = json_decode($videoInfo);
 
         $formats =  $videoInfo->streamingData->formats;
 
-        $format =  $formats[0];
+        $format =  end($formats);
 
-        echo json_encode($formats);
+        echo json_encode($format);
 
         $firstVideoMimeType = explode(";",explode("/",$format->mimeType)[1])[0];
 
@@ -29,7 +29,7 @@ class DownloadController extends Controller
         
         ["title" => $videoInfo->videoDetails->title,
 
-         "formats"=> json_encode($formats),
+         "formats"=> json_encode($format),
 
          "firstVideoMimeType"=> $firstVideoMimeType,
 
@@ -38,9 +38,9 @@ class DownloadController extends Controller
     ];
 
 
-   $this->downloader($videoInfo->videoDetails->title, $firstVideoMimeType , $format->url );
+  $this->downloader($videoInfo->videoDetails->title, $firstVideoMimeType , $format->url );
 
-      //  $this-> convertToAudio();
+        $this-> convertToAudio();
 
 
 
@@ -75,9 +75,9 @@ class DownloadController extends Controller
     ];
 
 
-   $this->downloader($videoInfo->videoDetails->title, $firstVideoMimeType , $format->url );
+        $this->downloader($videoInfo->videoDetails->title, $firstVideoMimeType , $format->url );
 
-      //  $this-> convertToAudio();
+        $this->convertToAudio('assets/temp_videos/'+$videoInfo->videoDetails->title.$firstVideoMimeType );
 
 
 
@@ -140,17 +140,68 @@ public function convertToAudio(){
 
     
 
-    $videoPath = public_path('assets/temp_videos/jksbjksdbvj.mp4');
+    $videoPath = public_path('assets/temp_videos/video.mp4');
 
     $ffmpeg = FFMpeg\FFMpeg::create();
     $video = $ffmpeg->open($videoPath);
 
     $format = new FFMpeg\Format\Audio\Mp3();
 
+
+
     $audioPath = public_path('assets/temp_audios/audio.mp3');
     $video->save($format, $audioPath);
 }
 
+public function convertVideo(){
+   // Set the URL of the remote video file
+$video_url = 'assets/temp_videos/pexels-kindel-media-8326341-3840x2160-30fps.mp4';
 
-    
+// Set the file name and path for the downloaded video file
+$local_file = 'assets/temp_videos/video.mp4';
+
+// Initialize cURL session
+$ch = curl_init($video_url);
+
+// Set options for the cURL session
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return the transfer as a string
+curl_setopt($ch, CURLOPT_BINARYTRANSFER, true); // Transfer the data as binary content
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Follow any redirects
+
+// Execute the cURL session and retrieve the content
+$content = curl_exec($ch);
+
+// Close the cURL session
+curl_close($ch);
+
+// Save the downloaded video file to the local file path
+file_put_contents($local_file, $content);
+
+// Output a success message to the user
+echo "Video downloaded successfully!";
+}
+
+
+public function runPython(){
+
+    // Get the video ID from the request
+$video_id = "_EUHzO1rC5k";
+
+// Call the Python script to retrieve the subtitle and capture the output
+$subtitles_content = exec('python3 /Users/user/Documents/python_projects/youtube.py  '.$video_id );
+
+// Output the subtitle content to the client
+
+//echo json_decode($subtitles_content)
+
+return response()->json(["subtitles"=>$subtitles_content]);
+
+
+}
+
+public function test_rapid_api(){
+
+
+
+
 }
