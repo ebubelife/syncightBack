@@ -93,7 +93,7 @@ class TaskController extends Controller
            
         ]);
 
-        $video_url = "https://www.youtube.com/watch?v=FNkFXvHR1sA";
+        $video_url = $validated["videoURL"];
 
 
 
@@ -109,8 +109,8 @@ class TaskController extends Controller
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => [
                 "X-RapidAPI-Host: youtube-video-summarizer1.p.rapidapi.com",
-                "X-RapidAPI-Key:be766bc553msh745a5826541da61p1ab31bjsn6476950f3bd2" , 
-                "openai-api-key: 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"
+                "X-RapidAPI-Key:".env("RAPID_API_KEY") , 
+                "openai-api-key:".env("OPENAI_API_KEY")
             ],
         ]);
         
