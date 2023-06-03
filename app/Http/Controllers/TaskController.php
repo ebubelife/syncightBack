@@ -98,6 +98,8 @@ class TaskController extends Controller
 
 
         $curl = curl_init();
+
+        
         
         curl_setopt_array($curl, [
             CURLOPT_URL => "https://youtube-video-summarizer1.p.rapidapi.com/v1/youtube/summarizeVideoWithToken?videoURL=".$video_url ,
