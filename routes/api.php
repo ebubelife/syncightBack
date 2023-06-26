@@ -38,7 +38,10 @@ Route::get('/convert', [DownloadController::class,'index']);
 
 Route::get('test_api', [DownloadController::class,'test_rapid_api']);
 
-Route::post('generate_summary', [TaskController::class,'generateVideoSummary']);
+
+
+Route::post('generate_summary', [TaskController::class, 'generateVideoSummary'])
+    ->middleware('auth:sanctum');
 
 
 
