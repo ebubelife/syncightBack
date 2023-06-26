@@ -36,12 +36,16 @@ Route::get('/grabber', [DownloadController::class,'index']);
 
 Route::get('/convert', [DownloadController::class,'index']);
 
-Route::get('test_api', [DownloadController::class,'test_rapid_api']);
+Route::get('/test_api', [DownloadController::class,'test_rapid_api']);
 
 
 
-Route::post('generate_summary', [TaskController::class, 'generateVideoSummary'])
+Route::post('/generate_summary', [TaskController::class, 'generateVideoSummary'])
     ->middleware('auth:sanctum');
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+        return $request->user();
+    });
 
 
 
