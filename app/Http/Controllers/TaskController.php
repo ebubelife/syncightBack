@@ -135,7 +135,7 @@ class TaskController extends Controller
             $addVideoSummary->user_id = 1;
             $addVideoSummary->link = $video_url;
             $addVideoSummary->link_type="YOUTUBE";
-            $addVideoSummary->summary = $json_response;
+            $addVideoSummary->summary = response()->json(['videoSummary'=>$json_response]);
             $addVideoSummary->email_verified = true;
 
             $addVideoSummary->save();
