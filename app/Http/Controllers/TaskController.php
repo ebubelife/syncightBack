@@ -91,6 +91,7 @@ class TaskController extends Controller
 
             $validated = $request->validate([
             'videoURL' => 'required|string',
+            'userID' => 'required|string'
            
         ]);
 
