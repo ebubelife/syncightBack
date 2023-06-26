@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use App\Models\VideoSummaries;
 
 class TaskController extends Controller
 {
@@ -125,6 +126,17 @@ class TaskController extends Controller
             return response()->json(['error'=>$err]);
 
         } else {
+
+            // summary to summary history
+
+            $addVideoSummary = new VideoSummaries();
+
+            $addVideoSummary->user_id = 1;
+            $addVideoSummary->link = $video_url;
+            $addVideoSummary->link_type="YOUTUBE";
+            $addVideoSummary->summary = $json_response;
+            $addVideoSummary->email_verified = true;
+             
 
             $json_response = json_decode($response, true);
             return response()->json(['videoSummary'=>$json_response]);

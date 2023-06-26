@@ -40,3 +40,5 @@ Route::get('test_api', [DownloadController::class,'test_rapid_api']);
 
 Route::post('generate_summary', [TaskController::class,'generateVideoSummary']);
 
+
+
