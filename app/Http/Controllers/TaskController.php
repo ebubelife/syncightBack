@@ -126,6 +126,7 @@ class TaskController extends Controller
             return response()->json(['error'=>$err]);
 
         } else {
+            $json_response = json_decode($response, true);
 
             // summary to summary history
 
@@ -138,7 +139,7 @@ class TaskController extends Controller
             $addVideoSummary->email_verified = true;
              
 
-            $json_response = json_decode($response, true);
+          
             return response()->json(['videoSummary'=>$json_response]);
 
         }
