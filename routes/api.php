@@ -40,8 +40,13 @@ Route::get('/test_api', [DownloadController::class,'test_rapid_api']);
 
 
 
-Route::post('/generate_summary', [TaskController::class, 'generateVideoSummary'])
-    ->middleware('auth:sanctum');
+
+
+
+ Route::middleware('auth:sanctum')->group(function () {
+        Route::post('generate_summary', [TaskController::class, 'generateVideoSummary']);
+        // other protected routes...
+    });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         return $request->user();
