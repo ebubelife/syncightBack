@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class VideoSummaries extends Model
 {
-    use HasFactory;
+    use HasFactory,HasApiTokens, Notifiable;
 
     protected $table = 'video_summaries';
 
