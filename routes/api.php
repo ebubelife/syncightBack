@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\TaskController;
+use App\Models\VideoSummaries;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,19 +45,26 @@ Route::get('/test_api', [DownloadController::class,'test_rapid_api']);
 
 
     Route::middleware('auth:sanctum')->group(function () {
+
+        //generate summary
         Route::post('generate_summary', [TaskController::class, 'generateVideoSummary']);
 
       
-        // other protected routes...
+        Route::get('view/user/video_summaries/{id}', function ($id) {
+            $video_summaries = VideoSummaries::where('user_id', $id)
+            ->orderByDesc('created_at')
+            ->get();
+        
+            return response()->json( $video_summaries );
+        });
+
     });
     
     Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         return $request->user();
     });
 
-    Route::middleware('auth:sanctum')->get('/zz', function (Request $request) {
-        return "sdjkbns";
-    });
+   
 
 
 
