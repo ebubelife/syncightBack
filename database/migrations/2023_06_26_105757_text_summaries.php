@@ -14,6 +14,18 @@ class TextSummaries extends Migration
     public function up()
     {
         //
+        Schema::create('text_summaries', function (Blueprint $table) {
+            $table->id();
+            $table->string('user_id');
+            $table->longText('text');
+            
+            $table->longText('summary');
+           
+            $table->boolean('email_verified');
+           
+           
+            $table->timestamps();
+        });
     }
 
     /**
