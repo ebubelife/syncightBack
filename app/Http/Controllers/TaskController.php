@@ -161,4 +161,90 @@ class TaskController extends Controller
     
     }
 
+
+
+    public function generateTextSummary(Request $request){
+
+        try{
+
+
+            $validated = $request->validate([
+            'text' => 'required|string',
+            'userID' => 'required|string',
+            'sentence_num'=>'required|string',
+           
+        ]);
+
+        $video_url = $validated["videoURL"];
+
+
+
+        $curl = curl_init();
+
+        
+        
+        curl_setopt_array($curl, [
+            CURLOPT_URL => "https://gpt-summarization.p.rapidapi.com/summarize" ,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => json_encode([
+
+                'text'=> $validated["text"],
+                'num_sentences'=>$validated["sentence_num"]
+
+            ]),
+            CURLOPT_HTTPHEADER => [
+                "X-RapidAPI-Host: gpt-summarization.p.rapidapi.com",
+                "X-RapidAPI-Key:".env("RAPID_API_KEY") , 
+              //  "openai-api-key:".env("OPENAI_API_KEY")
+            ],
+        ]);
+        
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        
+        curl_close($curl);
+        
+        if ($err) {
+            return response()->json(['error'=>$err]);
+
+        } else {
+            $json_response = json_decode($response, true);
+
+            // summary to summary history
+
+            $addVideoSummary = new VideoSummaries();
+
+            $addVideoSummary->user_id = $validated["userID"];
+            $addVideoSummary->link = $video_url;
+            $addVideoSummary->link_type="YOUTUBE";
+            $addVideoSummary->summary = response()->json(['videoSummary'=>$json_response]);
+            $addVideoSummary->email_verified = true;
+
+            $addVideoSummary->save();
+             
+
+          
+            return response()->json(['videoSummary'=>$json_response]);
+
+        }
+
+        
+
+      
+    }
+
+    catch(\Exception $e){
+        return response()->json(['message'=>'An error occured, please try again'.$e, 'error'=>$e],405);
+
+
+    }
+
+    
+    }
+
 }

@@ -46,8 +46,11 @@ Route::get('/test_api', [DownloadController::class,'test_rapid_api']);
 
     Route::middleware('auth:sanctum')->group(function () {
 
-        //generate summary
+        //generate video summary
         Route::post('generate_summary', [TaskController::class, 'generateVideoSummary']);
+
+        //generate text summary
+        Route::post('generate_text_summary', [TaskController::class, 'generateTextSummary']);
 
       
         Route::get('view/user/video_summaries/{id}', function ($id) {
