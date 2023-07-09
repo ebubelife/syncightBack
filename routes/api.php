@@ -64,8 +64,8 @@ Route::get('/test_api', [DownloadController::class,'test_rapid_api']);
 
         Route::get('view/user/text_summaries/{id}', function ($id) {
             $text_summaries = TextSummaries::all()
-            ->orderByDesc('created_at')
-            ->get();
+           // ->orderByDesc('created_at')
+           // ->get();
         
             return response()->json( $text_summaries );
         });
