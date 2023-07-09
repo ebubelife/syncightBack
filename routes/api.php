@@ -67,7 +67,7 @@ Route::get('/test_api', [DownloadController::class,'test_rapid_api']);
             ->orderByDesc('created_at')
             ->get();
         
-            return response()->json( $text_summaries );
+            return response()->json( "jjb");
         });
         
         
