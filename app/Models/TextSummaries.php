@@ -11,6 +11,6 @@ class TextSummaries extends Model
 {
     use HasFactory,HasApiTokens, Notifiable;
 
-    protected $table = 'text_summaries';
+    protected $table = 'text_summariess';
 
 }
