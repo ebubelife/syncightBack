@@ -218,7 +218,7 @@ class TaskController extends Controller
 
             // summary to summary history
 
-            $addTextSummary = new TextSummaries();
+           /* $addTextSummary = new TextSummaries();
 
             $addTextSummary->user_id = $validated["userID"];
             $addTextSummary->text= $validated["text"];
@@ -226,7 +226,7 @@ class TaskController extends Controller
             $addTextSummary->summary = response()->json(['textSummary'=>$json_response]);
             $addTextSummary->email_verified = true;
 
-            $addTextSummary->save();
+            $addTextSummary->save();*/
              
 
           
