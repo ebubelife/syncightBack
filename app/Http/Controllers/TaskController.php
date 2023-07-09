@@ -218,7 +218,7 @@ class TaskController extends Controller
 
             // summary to summary history
 
-            $adTextSummary = new TextSummaries();
+            $addTextSummary = new TextSummaries();
 
             $addTextSummary->user_id = $validated["userID"];
             $addTextSummary->link = $validated["text"];
