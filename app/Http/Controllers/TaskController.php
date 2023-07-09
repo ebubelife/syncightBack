@@ -194,8 +194,7 @@ class TaskController extends Controller
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_POSTFIELDS => json_encode([
 
-                'text'=> 'A design is a concept of either an object, a process, or a system that is specific and, in most cases, detailed. Design refers to something that is or has been intentionally created by a thinking agent, though it is sometimes used to refer to the nature of something. The verb to design expresses the process of developing a design. In some cases, the direct construction of an object without an explicit prior plan may also be considered to be a design (such as in some artwork and craftwork). The design usually has to satisfy certain goals and constraints; may take into account aesthetic, functional, economic, or socio-political considerations; and is expected to interact with a certain environment'
-            
+                'text'=> $validated["text"],
                 ,
                 'num_sentences'=>3
 
