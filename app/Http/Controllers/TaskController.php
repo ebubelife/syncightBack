@@ -203,7 +203,7 @@ class TaskController extends Controller
             CURLOPT_HTTPHEADER => [
                 "X-RapidAPI-Host: gpt-summarization.p.rapidapi.com",
                 "X-RapidAPI-Key:".env("RAPID_API_KEY") , 
-                'content-type': 'application/json'
+                'content-type: application/json'
               //  "openai-api-key:".env("OPENAI_API_KEY")
             ],
         ]);
