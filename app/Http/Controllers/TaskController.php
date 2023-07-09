@@ -235,7 +235,7 @@ class TaskController extends Controller
              
 
           
-            return response()->json(['textSummary'=>$response->summary]);
+            return response()->json(['textSummary'=>$response["summary"]]);
 
         }
 
