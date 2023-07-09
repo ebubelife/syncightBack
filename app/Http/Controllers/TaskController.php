@@ -228,7 +228,7 @@ class TaskController extends Controller
             $addTextSummary->user_id = $validated["userID"];
             $addTextSummary->text= $validated["text"];
           //  $addTextSummary->link_type="";
-            $addTextSummary->summary = response()->json(['textSummary'=>$json_response["summary"]]);
+            $addTextSummary->summary = $json_response["summary"];
             $addTextSummary->email_verified = true;
 
             $addTextSummary->save();
