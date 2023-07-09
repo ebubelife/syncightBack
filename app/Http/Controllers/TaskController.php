@@ -195,7 +195,7 @@ class TaskController extends Controller
             CURLOPT_POSTFIELDS => json_encode([
 
                 'text'=> $validated["text"],
-                ,
+                
                 'num_sentences'=>3
 
             ]),
