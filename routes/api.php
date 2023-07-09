@@ -63,11 +63,11 @@ Route::get('/test_api', [DownloadController::class,'test_rapid_api']);
         });
 
         Route::get('view/user/text_summaries/{id}', function ($id) {
-            $video_summaries = TextSummaries::where('user_id', $id)
+            $text_summaries = TextSummaries::where('user_id', $id)
             ->orderByDesc('created_at')
             ->get();
         
-            return response()->json( $video_summaries );
+            return response()->json( $text_summaries );
         });
         
         
