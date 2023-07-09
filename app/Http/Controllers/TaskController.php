@@ -230,7 +230,7 @@ class TaskController extends Controller
              
 
           
-            return response()->json(['videoSummary'=>$json_response]);
+            return response()->json(['textSummary'=>$json_response]);
 
         }
 
