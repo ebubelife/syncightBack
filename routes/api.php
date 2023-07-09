@@ -55,7 +55,7 @@ Route::get('/test_api', [DownloadController::class,'test_rapid_api']);
 
       
         Route::get('view/user/video_summaries/{id}', function ($id) {
-            $video_summaries = VideoSummaries::where('user_id', $id)
+            $video_summaries = VideoSummaries::all()
             ->orderByDesc('created_at')
             ->get();
         
