@@ -184,7 +184,7 @@ class TaskController extends Controller
 
         
         
-        curl_setopt_array($curl, [
+       /* curl_setopt_array($curl, [
             CURLOPT_URL => "https://gpt-summarization.p.rapidapi.com/summarize" ,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
@@ -208,6 +208,36 @@ class TaskController extends Controller
                 ],
              
           
+        ]);*/
+
+        // Request data (you may replace this with your own)
+        $requestData = [
+            "model" => "text-davinci-003",
+            "prompt" => $validated["text"],
+            "temperature" => 0.7,
+            "top_p" => 1.0,
+            "frequency_penalty" => 0,
+            "presence_penalty" => 0,
+            "max_tokens" => 3000
+        ];
+
+        // Convert request data to JSON
+        $jsonData = json_encode($requestData);
+
+       // Set cURL options
+        curl_setopt_array($curl, [
+            CURLOPT_URL => $apiUrl,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => $jsonData,
+            CURLOPT_HTTPHEADER => [
+                "Content-Type: application/json",
+                "Authorization: Bearer " . env("OPENAI_API_KEY"), // Add the bearer token to the header
+            ],
         ]);
         
         $response = curl_exec($curl);
@@ -228,14 +258,14 @@ class TaskController extends Controller
             $addTextSummary->user_id = $validated["userID"];
             $addTextSummary->text= $validated["text"];
           //  $addTextSummary->link_type="";
-            $addTextSummary->summary = $json_response["summary"];
+            $addTextSummary->summary = $json_response["choices"][0]["text"];
             $addTextSummary->email_verified = true;
 
             $addTextSummary->save();
              
 
           
-            return response()->json(['textSummary'=>$json_response["summary"]]);
+            return response()->json(['textSummary'=> $json_response["choices"][0]["text"]]);
 
         }
 
