@@ -213,7 +213,7 @@ class TaskController extends Controller
         // Request data (you may replace this with your own)
         $requestData = [
             "model" => "text-davinci-003",
-            "prompt" => ""+$validated["text"],
+            "prompt" => "I am going to give you a text. Please summarise the text in 3 sentences. Here is the text  =>".$validated["text"],
             "temperature" => 0.7,
             "top_p" => 1.0,
             "frequency_penalty" => 0,
