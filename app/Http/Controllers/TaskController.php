@@ -6,6 +6,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Models\VideoSummaries;
 use App\Models\TextSummaries;
+use App\Models\Members;
 
 class TaskController extends Controller
 {
@@ -254,7 +255,7 @@ class TaskController extends Controller
         } else {
             $json_response = json_decode($response, true);
 
-            // summary to summary history
+            // add summary to summary history
 
          $addTextSummary = new TextSummaries();
 
@@ -265,7 +266,18 @@ class TaskController extends Controller
             $addTextSummary->email_verified = true;
 
             $addTextSummary->save();
-             
+
+
+             //updated available credits for user
+             $member = new Members();
+
+             $credit_count = $member->credit_count;
+
+             $new_credit_count = intval($credit_count) - 1;
+
+             $member->credit_count = strval($new_credit_count);
+
+             $member->save();
 
           
             return response()->json(['textSummary'=> $json_response["choices"][0]["text"]]);
