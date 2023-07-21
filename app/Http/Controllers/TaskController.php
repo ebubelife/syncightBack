@@ -213,7 +213,7 @@ class TaskController extends Controller
         // Request data (you may replace this with your own)
         $requestData = [
             "model" => "text-davinci-003",
-            "prompt" => $validated["text"],
+            "prompt" => ""+$validated["text"],
             "temperature" => 0.7,
             "top_p" => 1.0,
             "frequency_penalty" => 0,
@@ -223,6 +223,7 @@ class TaskController extends Controller
 
         // Convert request data to JSON
         $jsonData = json_encode($requestData);
+        $apiUrl = "https://api.openai.com/v1/completions";
 
        // Set cURL options
         curl_setopt_array($curl, [
@@ -236,7 +237,9 @@ class TaskController extends Controller
             CURLOPT_POSTFIELDS => $jsonData,
             CURLOPT_HTTPHEADER => [
                 "Content-Type: application/json",
-                "Authorization: Bearer " . env("OPENAI_API_KEY"), // Add the bearer token to the header
+                "Authorization: Bearer " . env("OPENAI_API_KEY"),
+                
+                // Add the bearer token to the header
             ],
         ]);
         
