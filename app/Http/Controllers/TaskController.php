@@ -269,7 +269,7 @@ class TaskController extends Controller
 
 
              //updated available credits for user
-             $member = new Members();
+             $member = Members::find($validated["userID"]);
 
              $credit_count = $member->credit_count;
 
